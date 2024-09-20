@@ -7,12 +7,27 @@ from cryptography.fernet import Fernet
 from dotenv import load_dotenv
 from tkinter import PhotoImage
 from PIL import Image, ImageTk
+import pkg_resources
+
+#Folder containing the functions
+module_path = os.path.abspath(os.path.join(os.path.dirname(__file__),'funcs'))
+if module_path not in sys.path:
+    sys.path.append(module_path)
+
+# Path for the csv file and img folder
+csv_path = pkg_resources.resource_filename(__name__, 'passwords.csv')
+image_path = pkg_resources.resource_filename(__name__, 'pics')
 
 # Import the functions from my files
 from create_password import create_password
 from encrypt import decrypt_password, encrypt_password
 from search import search_password
 from delete_password import delete_password
+from install_requirements import install_requirements
+
+
+
+
 
 # Basic configs for the GUI
 root = Tk()
@@ -20,7 +35,7 @@ root.resizable(0, 0)
 root.geometry("500x500")
 root.title("Password Manager")
 #Variable for the icon image
-icon_photo = Image.open("backup.ico")
+icon_photo = Image.open(os.path.join(image_path,"backup.ico"))
 icon_photo = ImageTk.PhotoImage(icon_photo)
 root.iconphoto(False, icon_photo)
 # Make the GUI open in the middle of the screen
@@ -32,7 +47,7 @@ y = (root.winfo_screenheight() // 2) - (height // 2)
 root.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
 # Variable for the search photo
-original_image = Image.open("search.png")
+original_image = Image.open(os.path.join(image_path,"search.png"))
 resized_image = original_image.resize((15, 15), Image.LANCZOS)
 search_image = ImageTk.PhotoImage(resized_image)
 
